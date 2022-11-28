@@ -40,6 +40,5 @@ public class DaoBd<E>{
         em.getTransaction().commit();
     }
 
-    ok
 }
 
