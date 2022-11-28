@@ -39,5 +39,7 @@ public class DaoBd<E>{
         em.merge(entidade);
         em.getTransaction().commit();
     }
+
+    ok
 }
 
