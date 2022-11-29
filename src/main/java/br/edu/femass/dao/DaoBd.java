@@ -6,8 +6,8 @@ import javax.persistence.Persistence;
 
 public class DaoBd<E>{
 
-    private static EntityManagerFactory emf;
-    private EntityManager em;
+    protected static EntityManagerFactory emf;
+    protected EntityManager em;
 
     static{
         try{
