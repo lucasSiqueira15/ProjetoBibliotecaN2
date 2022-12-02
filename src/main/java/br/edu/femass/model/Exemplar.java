@@ -1,10 +1,13 @@
 package br.edu.femass.model;
 
 import java.time.LocalDate;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Exemplar {
@@ -13,6 +16,7 @@ public class Exemplar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dataAquisicao;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Livro livro;
     private boolean disponivel;
 

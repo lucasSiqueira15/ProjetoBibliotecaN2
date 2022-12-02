@@ -103,9 +103,8 @@ public class ControllerAutor implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        telaAnterior = arg1.getBaseBundleName();
-
         try {
+            telaAnterior = arg1.getBaseBundleName();
             atualizarTabela();
         } catch (Exception ex) {
             Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);

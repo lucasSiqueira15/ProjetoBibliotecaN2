@@ -2,10 +2,13 @@ package br.edu.femass.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Emprestimo {
@@ -16,7 +19,9 @@ public class Emprestimo {
     private LocalDate dataEmprestimo;
     private LocalDate dataPrevistaDevolucao;
     private LocalDate dataDevolucao;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Exemplar exemplar;
+    @ManyToOne(cascade = CascadeType.ALL)
     private Leitor leitor;
 
     public Emprestimo(Exemplar exemplar, Leitor leitor) {
