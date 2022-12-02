@@ -6,6 +6,6 @@ import br.edu.femass.model.Professor;
 
 public class DaoProfessor extends DaoBd<Professor> {
     public List<Professor> listarTodos(){
-        return em.createQuery("select p from Professor p order by p.nome asc").getResultList();
+        return em.createQuery("select p from Professor p order by p.id asc").getResultList();
     }
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.femass.gui.ControllerAutor">
+   <children>
+      <Label layoutX="24.0" layoutY="34.0" text="ID">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="24.0" layoutY="185.0" mnemonicParsing="false" onAction="#cadastrarAutor" text="Cadastrar">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="113.0" layoutY="185.0" mnemonicParsing="false" onAction="#voltarTela" text="Voltar">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="23.0" layoutY="73.0" text="Nome">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="109.0" prefHeight="21.0" prefWidth="79.0" text="Sobrenome">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="23.0" layoutY="148.0" text="Nacionalidade">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtId" editable="false" layoutX="133.0" layoutY="32.0" prefHeight="25.0" prefWidth="51.0" />
+      <TextField fx:id="txtNome" layoutX="133.0" layoutY="71.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="txtSobrenome" layoutX="133.0" layoutY="107.0" prefHeight="25.0" prefWidth="243.0" />
+      <TextField fx:id="txtNacionalidade" layoutX="133.0" layoutY="146.0" />
+      <TableView fx:id="tabAutores" layoutX="18.0" layoutY="231.0" onKeyPressed="#selecionarLinhaTeclado" onMouseClicked="#selecionarLinhaMouse" prefHeight="247.0" prefWidth="531.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="43.0" text="ID" />
+          <TableColumn fx:id="colNome" prefWidth="104.0" text="Nome" />
+            <TableColumn fx:id="colSobrenome" prefWidth="288.0" text="Sobrenome" />
+            <TableColumn fx:id="colNacionalidade" minWidth="0.0" prefWidth="95.0" text="Nacionalidade" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
