@@ -40,10 +40,22 @@
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtId" editable="false" layoutX="133.0" layoutY="32.0" prefHeight="25.0" prefWidth="51.0" />
-      <TextField fx:id="txtNome" layoutX="133.0" layoutY="71.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField fx:id="txtSobrenome" layoutX="133.0" layoutY="107.0" prefHeight="25.0" prefWidth="243.0" />
-      <TextField fx:id="txtNacionalidade" layoutX="133.0" layoutY="146.0" />
+      <TextField fx:id="txtId" editable="false" layoutX="133.0" layoutY="32.0" prefHeight="25.0" prefWidth="51.0">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtNome" layoutX="133.0" layoutY="71.0" prefHeight="25.0" prefWidth="149.0">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtSobrenome" layoutX="133.0" layoutY="107.0" prefHeight="25.0" prefWidth="243.0">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtNacionalidade" layoutX="133.0" layoutY="146.0">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font></TextField>
       <TableView fx:id="tabAutores" layoutX="18.0" layoutY="231.0" onKeyPressed="#selecionarLinhaTeclado" onMouseClicked="#selecionarLinhaMouse" prefHeight="247.0" prefWidth="531.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="43.0" text="ID" />

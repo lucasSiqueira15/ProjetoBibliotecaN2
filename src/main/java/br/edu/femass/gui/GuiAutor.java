@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class GuiAutor{
 
+    private static Stage tela;
+
     public GuiAutor(){
         
     }
@@ -42,10 +44,14 @@ public class GuiAutor{
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
 
         Stage stage = new Stage();
+        tela = stage;
         stage.setTitle("Menu Autor");
         stage.setScene(scene);
         stage.show();
     }
 
+    public static void fecharTela(){
+        tela.close();
+    }
 }
 

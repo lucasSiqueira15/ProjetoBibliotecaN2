@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -48,28 +49,26 @@ public class ControllerAutor implements Initializable {
             daoAutor.adicionar(new Autor(txtNome.getText(), txtSobrenome.getText(), txtNacionalidade.getText()));
             atualizarTabela();
         } catch (Exception ex) {
-            Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-            dialogoInfo.setTitle("Alerta");
-            dialogoInfo.setContentText(ex.getMessage());
-            dialogoInfo.showAndWait();
+            chamadaErro(ex.getMessage());
         }
     }
 
     @FXML
     public void voltarTela(ActionEvent e) {
-        if (telaAnterior.equals("Principal")) {
-            GuiPrincipal.main(null);
-            
-        } else {
-            if (telaAnterior.equals("Livro")) {
-                //GuiLivro telaLivro = new GuiLivro();
-            } 
-            else {
-                Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                dialogoInfo.setTitle("Alerta");
-                dialogoInfo.setContentText("Erro ao carregar a tela anterior.");
-                dialogoInfo.showAndWait();
+        try {
+            if (telaAnterior.equals("Principal")) {
+                new GuiPrincipal().iniciar();
+                GuiAutor.fecharTela();
+            } else {
+                if (telaAnterior.equals("Livro")) {
+                    //GuiLivro telaLivro = new GuiLivro();
+                } 
+                else {
+                    chamadaErro("Erro ao carregar a tela anterior.");
+                }
             }
+        } catch (Exception ex) {
+            chamadaErro("Erro ao carregar a tela anterior.");
         }
     }
 
@@ -101,16 +100,37 @@ public class ControllerAutor implements Initializable {
         txtNacionalidade.setText(autor.getNacionalidade());
     }
 
+    private void chamadaErro(String erro){
+        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+        dialogoInfo.setTitle("Alerta");
+        dialogoInfo.setContentText(erro);
+        dialogoInfo.showAndWait();
+    }
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
             telaAnterior = arg1.getBaseBundleName();
+
+            colNome.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("nome")
+            );
+
+            colSobrenome.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("sobrenome")
+            );
+
+            colNacionalidade.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("nacionalidade")
+            );
+
+            colId.setCellValueFactory(
+                new PropertyValueFactory<Autor, Long>("id")
+            );
+
             atualizarTabela();
         } catch (Exception ex) {
-            Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-            dialogoInfo.setTitle("Alerta");
-            dialogoInfo.setContentText(ex.getMessage());
-            dialogoInfo.showAndWait();
+            chamadaErro(ex.getMessage());
         }
         
     }

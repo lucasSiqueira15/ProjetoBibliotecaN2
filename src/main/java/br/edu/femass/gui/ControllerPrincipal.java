@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
-
 public class ControllerPrincipal implements Initializable {
 
     @FXML
@@ -42,7 +41,8 @@ public class ControllerPrincipal implements Initializable {
     @FXML
     private void telaAutor(ActionEvent e) {
         try {
-           new GuiAutor().iniciar(ControllerPrincipal.toNomeTela());;
+           new GuiAutor().iniciar(ControllerPrincipal.toNomeTela());
+           GuiPrincipal.fecharTela();
         } catch (Exception ex) {
             Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
             dialogoInfo.setTitle("Alerta");
