@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -39,14 +40,79 @@ public class ControllerAutor implements Initializable {
     private TableColumn<Autor, String> colNacionalidade = new TableColumn<>();
     @FXML
     private TextField txtId;
+    @FXML
+    private Button btnProcessar;
+    @FXML
+    private Button btnVoltarTela;
+    @FXML
+    private Button btnVoltarOpcoes;
+    @FXML
+    private Button btnInserir;
+    @FXML
+    private Button btnAlterar;
+    @FXML
+    private Button btnExcluir;
 
     private String telaAnterior;
     DaoAutor daoAutor = new DaoAutor();
+    private String opcaoProcessamento = "";
 
     @FXML
-    public void cadastrarAutor(ActionEvent e) {
+    public void processarAutor(ActionEvent e) {
         try {
-            daoAutor.adicionar(new Autor(txtNome.getText(), txtSobrenome.getText(), txtNacionalidade.getText()));
+            if(opcaoProcessamento.equals("inserir")){
+                cadastrarAutor();
+            }
+            else{
+                modificarAutor();
+                visualizacaoTela(false);
+            }
+            atualizarTabela();
+            limparTxt();
+        } catch (Exception ex) {
+            chamadaErro(ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void voltarOpcoes(ActionEvent e) {
+        limparTxt();
+        visualizacaoTela(false);
+    }
+
+    @FXML
+    public void selecionarLinhaTeclado(KeyEvent e) {
+        exibirDados();
+    }
+
+    @FXML
+    public void selecionarLinhaMouse(MouseEvent e) {
+        exibirDados();
+    }
+
+    @FXML
+    public void inserirAutor(ActionEvent e) {
+        opcaoProcessamento = "inserir";
+        limparTxt();
+        visualizacaoTela(true);
+    }
+
+    @FXML
+    public void alterarAutor(ActionEvent e) {
+        if(tabAutores.getSelectionModel().getSelectedItem().getId().toString().equals("")){
+            chamadaErro("Por favor, escolha um item para alterar!");
+        }
+        else{
+            opcaoProcessamento = "alterar";
+            visualizacaoTela(true);
+        }
+        
+    }
+
+    @FXML
+    public void excluirAutor(ActionEvent e) {
+        try {
+            daoAutor.deletar(tabAutores.getSelectionModel().getSelectedItem());
             atualizarTabela();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
@@ -61,25 +127,14 @@ public class ControllerAutor implements Initializable {
                 GuiAutor.fecharTela();
             } else {
                 if (telaAnterior.equals("Livro")) {
-                    //GuiLivro telaLivro = new GuiLivro();
-                } 
-                else {
+                    // GuiLivro telaLivro = new GuiLivro();
+                } else {
                     chamadaErro("Erro ao carregar a tela anterior.");
                 }
             }
         } catch (Exception ex) {
             chamadaErro("Erro ao carregar a tela anterior.");
         }
-    }
-
-    @FXML
-    public void selecionarLinhaTeclado(KeyEvent e) {
-        exibirDados();
-    }
-
-    @FXML
-    public void selecionarLinhaMouse(MouseEvent e) {
-        exibirDados();
     }
 
     private void atualizarTabela() throws Exception {
@@ -89,10 +144,11 @@ public class ControllerAutor implements Initializable {
         tabAutores.setItems(dados);
     }
 
-    private void exibirDados(){
+    private void exibirDados() {
         Autor autor = tabAutores.getSelectionModel().getSelectedItem();
 
-        if (autor == null) return;
+        if (autor == null)
+            return;
 
         txtId.setText(autor.getId().toString());
         txtNome.setText(autor.getNome());
@@ -100,38 +156,68 @@ public class ControllerAutor implements Initializable {
         txtNacionalidade.setText(autor.getNacionalidade());
     }
 
-    private void chamadaErro(String erro){
+    private void chamadaErro(String erro) {
         Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
         dialogoInfo.setTitle("Alerta");
         dialogoInfo.setContentText(erro);
         dialogoInfo.showAndWait();
     }
 
+    private void visualizacaoTela(Boolean entrada) {
+        btnProcessar.setDisable(!entrada);
+        btnVoltarOpcoes.setDisable(!entrada);
+        btnVoltarTela.setDisable(entrada);
+        btnInserir.setDisable(entrada);
+        btnAlterar.setDisable(entrada);
+        btnExcluir.setDisable(entrada);
+        txtNome.setDisable(!entrada);
+        txtSobrenome.setDisable(!entrada);
+        txtNacionalidade.setDisable(!entrada);
+        tabAutores.setDisable(entrada);
+    }
+
+    private void limparTxt() {
+        txtId.setText("");
+        txtNome.setText("");
+        txtSobrenome.setText("");
+        txtNacionalidade.setText("");
+    }
+
+    private void cadastrarAutor() {
+        daoAutor.adicionar(new Autor(txtNome.getText(), txtSobrenome.getText(), txtNacionalidade.getText()));
+    }
+
+    private void modificarAutor() {
+        Autor autor = tabAutores.getSelectionModel().getSelectedItem();
+
+        autor.setNome(txtNome.getText());
+        autor.setSobrenome(txtSobrenome.getText());
+        autor.setNacionalidade(txtNacionalidade.getText());
+
+        daoAutor.modificar(autor);
+    }
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
             telaAnterior = arg1.getBaseBundleName();
-
+            visualizacaoTela(false);
             colNome.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("nome")
-            );
+                    new PropertyValueFactory<Autor, String>("nome"));
 
             colSobrenome.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("sobrenome")
-            );
+                    new PropertyValueFactory<Autor, String>("sobrenome"));
 
             colNacionalidade.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("nacionalidade")
-            );
+                    new PropertyValueFactory<Autor, String>("nacionalidade"));
 
             colId.setCellValueFactory(
-                new PropertyValueFactory<Autor, Long>("id")
-            );
+                    new PropertyValueFactory<Autor, Long>("id"));
 
             atualizarTabela();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
         }
-        
+
     }
 }
