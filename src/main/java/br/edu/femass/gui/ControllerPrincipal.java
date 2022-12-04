@@ -63,7 +63,15 @@ public class ControllerPrincipal implements Initializable {
 
     @FXML
     private void telaLeitor(ActionEvent e) {
-        //Acessar Tela de Leitor
+        try {
+            new GuiLeitor().iniciar(ControllerPrincipal.toNomeTela());
+            GuiPrincipal.fecharTela();
+         } catch (Exception ex) {
+             Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+             dialogoInfo.setTitle("Alerta");
+             dialogoInfo.setContentText(ex.getMessage());
+             dialogoInfo.showAndWait();
+         }
     }
 
     @FXML

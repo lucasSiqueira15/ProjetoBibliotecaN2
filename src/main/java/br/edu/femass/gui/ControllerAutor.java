@@ -60,10 +60,9 @@ public class ControllerAutor implements Initializable {
     @FXML
     public void processarAutor(ActionEvent e) {
         try {
-            if(opcaoProcessamento.equals("inserir")){
+            if (opcaoProcessamento.equals("inserir")) {
                 cadastrarAutor();
-            }
-            else{
+            } else {
                 modificarAutor();
                 visualizacaoTela(false);
             }
@@ -99,14 +98,13 @@ public class ControllerAutor implements Initializable {
 
     @FXML
     public void alterarAutor(ActionEvent e) {
-        if(tabAutores.getSelectionModel().getSelectedItem().getId().toString().equals("")){
+        if (tabAutores.getSelectionModel().isEmpty()) {
             chamadaErro("Por favor, escolha um item para alterar!");
-        }
-        else{
+        } else {
             opcaoProcessamento = "alterar";
             visualizacaoTela(true);
         }
-        
+
     }
 
     @FXML
@@ -138,6 +136,20 @@ public class ControllerAutor implements Initializable {
     }
 
     private void atualizarTabela() throws Exception {
+        tabAutores.getItems().clear();
+        
+        colNome.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("nome"));
+
+        colSobrenome.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("sobrenome"));
+
+        colNacionalidade.setCellValueFactory(
+                new PropertyValueFactory<Autor, String>("nacionalidade"));
+
+        colId.setCellValueFactory(
+                new PropertyValueFactory<Autor, Long>("id"));
+
         List<Autor> autores = daoAutor.listarTodos();
 
         ObservableList<Autor> dados = FXCollections.observableArrayList(autores);
@@ -202,18 +214,6 @@ public class ControllerAutor implements Initializable {
         try {
             telaAnterior = arg1.getBaseBundleName();
             visualizacaoTela(false);
-            colNome.setCellValueFactory(
-                    new PropertyValueFactory<Autor, String>("nome"));
-
-            colSobrenome.setCellValueFactory(
-                    new PropertyValueFactory<Autor, String>("sobrenome"));
-
-            colNacionalidade.setCellValueFactory(
-                    new PropertyValueFactory<Autor, String>("nacionalidade"));
-
-            colId.setCellValueFactory(
-                    new PropertyValueFactory<Autor, Long>("id"));
-
             atualizarTabela();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());

@@ -1,74 +1,63 @@
-// package femass.gui;
+package br.edu.femass.gui;
 
-// import javax.swing.*;
-// import java.awt.event.ActionEvent;
-// import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-// public class GuiLeitor {
-//     private JPanel jPainel;
-//     private JList lstLeitor;
-//     private JTextField txtCodigo;
-//     private JTextField txtNome;
-//     private JTextField txtEndereco;
-//     private JTextField txtTelefone;
-//     private JTextField txtDevolucao;
-//     private JComboBox cboLeitor;
-//     private JTextField txtDisciplina;
-//     private JTextField txtMatricula;
-//     private JButton btnCadastrarProf;
-//     private JButton btnVoltar;
-//     private JButton btnCadastrarAluno;
-//     private JFrame telaFechar;
-//     private String telaNova;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 
-//     public GuiLeitor() {
-//         btnCadastrarProf.addActionListener(new ActionListener() {
-//             @Override
-//             public void actionPerformed(ActionEvent e) {
-//                 GuiProfessor telaProfessor = new GuiProfessor();
-//                 telaFechar.dispose();
-//                 telaProfessor.abrirTela(telaNova);
-//             }
-//         });
-//         btnCadastrarAluno.addActionListener(new ActionListener() {
-//             @Override
-//             public void actionPerformed(ActionEvent e) {
-//                 GuiAluno telaAluno = new GuiAluno();
-//                 telaFechar.dispose();
-//                 telaAluno.abrirTela(telaNova);
-//             }
-//         });
-//         btnVoltar.addActionListener(new ActionListener() {
-//             @Override
-//             public void actionPerformed(ActionEvent e) {
-//                 if(telaNova.equals("Principal")){
-//                     GuiPrincipal telaPrincipal = new GuiPrincipal();
-//                     telaFechar.dispose();
-//                     telaPrincipal.abrirTela();
-//                 }
-//                 else{
-//                     if(telaNova.equals("Emprestimo")){
-//                         GuiEmprestimo telaEmprestimo = new GuiEmprestimo();
-//                         telaFechar.dispose();
-//                         telaEmprestimo.abrirTela();
-//                     }
-//                     else{
-//                         JOptionPane.showMessageDialog(null, "Erro ao carregar a tela anterior.", "Alerta", JOptionPane.ERROR_MESSAGE);
-//                     }
-//                 }
-//             }
-//         });
-//     }
+public class ControllerLeitor implements Initializable {
 
-//     public void abrirTela(String telaAnterior){
-//         JFrame tela = new JFrame();
-//         telaFechar = tela;
-//         telaNova = telaAnterior;
-//         tela.setTitle("Opções de Cadastro de Leitores");
-//         tela.setContentPane(jPainel);
-//         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//         tela.pack();
-//         tela.setVisible(true);
-//     }
+    private String telaNova;
 
-// }
+    @FXML
+    public void abrirTelaProfessor(ActionEvent e) {
+        // GuiProfessor telaProfessor = new GuiProfessor();
+        // telaFechar.dispose();
+        // telaProfessor.abrirTela(telaNova);
+    }
+
+    @FXML
+    public void abrirTelaAluno(ActionEvent e) {
+        try {
+            new GuiAluno().iniciar(telaNova);
+            GuiLeitor.fecharTela();
+        } catch (Exception ex) {
+            chamadaErro(ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void voltarTela(ActionEvent e) {
+        try {
+            if (telaNova.equals("Principal")) {
+                new GuiPrincipal().iniciar();
+                GuiLeitor.fecharTela();
+            } else {
+                if (telaNova.equals("Emprestimo")) {
+                    // GuiEmprestimo telaEmprestimo = new GuiEmprestimo();
+                    // GuiLeitor.fecharTela();
+                } else {
+                    chamadaErro("Erro ao carregar a tela anterior.");
+                }
+            }
+        } catch (Exception ex) {
+            chamadaErro("Erro ao carregar a tela anterior.");
+        }
+    }
+
+    private void chamadaErro(String erro) {
+        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+        dialogoInfo.setTitle("Alerta");
+        dialogoInfo.setContentText(erro);
+        dialogoInfo.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        telaNova = arg1.getBaseBundleName();
+    }
+
+}
