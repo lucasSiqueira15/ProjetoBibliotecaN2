@@ -8,6 +8,13 @@
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
+            "mainClass": "br.edu.femass.ExecutarTela.Main",
+            "projectName": "projetobiblioteca"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
             "mainClass": "br.edu.femass.gui.Main",
             "projectName": "projetobiblioteca"
         },

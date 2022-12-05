@@ -44,16 +44,18 @@ public class ControllerPrincipal implements Initializable {
            new GuiAutor().iniciar(ControllerPrincipal.toNomeTela());
            GuiPrincipal.fecharTela();
         } catch (Exception ex) {
-            Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-            dialogoInfo.setTitle("Alerta");
-            dialogoInfo.setContentText(ex.getMessage());
-            dialogoInfo.showAndWait();
+            chamadaErro(ex.getMessage());
         }
     }
 
     @FXML
     private void telaLivro(ActionEvent e) {
-        //Acessar Tela de Livro
+        try {
+            new GuiLivro().iniciar();
+            GuiPrincipal.fecharTela();
+         } catch (Exception ex) {
+             chamadaErro(ex.getMessage());
+         }
     }
 
     @FXML
@@ -67,10 +69,7 @@ public class ControllerPrincipal implements Initializable {
             new GuiLeitor().iniciar(ControllerPrincipal.toNomeTela());
             GuiPrincipal.fecharTela();
          } catch (Exception ex) {
-             Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-             dialogoInfo.setTitle("Alerta");
-             dialogoInfo.setContentText(ex.getMessage());
-             dialogoInfo.showAndWait();
+             chamadaErro(ex.getMessage());
          }
     }
 
@@ -119,10 +118,7 @@ public class ControllerPrincipal implements Initializable {
                     btnRelAtraso.setVisible(false);
                     btnCadAutores.setVisible(false);
                 } else {
-                    Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
-                    dialogoInfo.setTitle("Alerta");
-                    dialogoInfo.setContentText("Erro ao carregar as opções de Menu.");
-                    dialogoInfo.showAndWait();
+                    chamadaErro("Erro ao carregar as opções de Menu.");
                 }
             }
         }
@@ -137,6 +133,13 @@ public class ControllerPrincipal implements Initializable {
 
     public static String toNomeTela() {
         return "Principal";
+    }
+
+    private void chamadaErro(String erro) {
+        Alert dialogoInfo = new Alert(Alert.AlertType.INFORMATION);
+        dialogoInfo.setTitle("Alerta");
+        dialogoInfo.setContentText(erro);
+        dialogoInfo.showAndWait();
     }
 
     @Override

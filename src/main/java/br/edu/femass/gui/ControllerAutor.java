@@ -125,7 +125,8 @@ public class ControllerAutor implements Initializable {
                 GuiAutor.fecharTela();
             } else {
                 if (telaAnterior.equals("Livro")) {
-                    // GuiLivro telaLivro = new GuiLivro();
+                    new GuiLivro().iniciar();
+                    GuiAutor.fecharTela();
                 } else {
                     chamadaErro("Erro ao carregar a tela anterior.");
                 }

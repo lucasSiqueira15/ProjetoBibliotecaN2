@@ -14,9 +14,12 @@ public class ControllerLeitor implements Initializable {
 
     @FXML
     public void abrirTelaProfessor(ActionEvent e) {
-        // GuiProfessor telaProfessor = new GuiProfessor();
-        // telaFechar.dispose();
-        // telaProfessor.abrirTela(telaNova);
+        try {
+            new GuiProfessor().iniciar(telaNova);
+            GuiLeitor.fecharTela();
+        } catch (Exception ex) {
+            chamadaErro(ex.getMessage());
+        }
     }
 
     @FXML
