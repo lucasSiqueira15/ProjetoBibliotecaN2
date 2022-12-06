@@ -1,14 +1,12 @@
 package br.edu.femass.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Livro {
@@ -18,17 +16,17 @@ public class Livro {
     private Long id;
     private String titulo;
     private String ano;
-    @OneToMany
+    @ManyToOne
     @JoinTable(
             name="Livro_Autor",
             joinColumns = @JoinColumn(name="livro_id"),
             inverseJoinColumns = @JoinColumn(name="autor_id")
     )
-    private List<Autor> autores;
+    private Autor autor;
 
-    public Livro(String titulo, String ano, List<Autor> autores) {
+    public Livro(String titulo, String ano, Autor autor) {
         this.titulo = titulo;
-        this.autores = autores;
+        this.autor = autor;
         this.ano = ano;
     }
 
@@ -55,36 +53,18 @@ public class Livro {
         return titulo;
     }
 
-    public List<Autor> getAutores() {
-        return autores;
+    public Autor getAutor() {
+        return autor;
     }
 
-    public void adicionarAutor(Autor autor) {
-        this.autores.add(autor);
-    }
-
-    public void excluirAutor(Autor autor) {
-        this.autores.remove(autor);
-    }
-
-    public void setAutores(List<Autor> autores) {
-        this.autores = autores;
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 
     @Override
     public String toString() {
-        StringBuilder autores = new StringBuilder();
-        for (int i = 0; i < this.autores.size(); i++) {
-            if (autores.toString().equals("")) {
-                autores = new StringBuilder(this.autores.get(i).getNome() + " " + this.autores.get(i).getSobrenome());
-            } else {
-                autores.append(", ").append(this.autores.get(i).getNome()).append(" ")
-                        .append(this.autores.get(i).getSobrenome());
-            }
-        }
-
         return "Código: " + this.id + " | Título: " + this.titulo.toUpperCase() + " | Ano: " + this.ano.toUpperCase()
-                + " | Autores: " + autores.toString().toUpperCase();
+                + " | Autor: " + this.autor.toString().toUpperCase();
     }
 
     @Override

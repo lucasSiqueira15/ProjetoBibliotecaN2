@@ -2,12 +2,13 @@ package br.edu.femass.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 
 @Entity
 public class Exemplar {
@@ -16,19 +17,19 @@ public class Exemplar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate dataAquisicao;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinTable(
+            name="Exemplar_Livro",
+            joinColumns = @JoinColumn(name="exemplar_id"),
+            inverseJoinColumns = @JoinColumn(name="livro_id")
+    )
     private Livro livro;
-    private boolean disponivel;
+    private Boolean disponivel;
 
     public Exemplar(LocalDate dataAquisicao, Livro livro) {
-        if(livro == null){
-            throw new IllegalArgumentException("POR FAVOR, CADASTRAR UM LIVRO PARA PODER CADASTRAR SEU EXEMPLAR.");
-        }
-        else {
-            this.dataAquisicao = dataAquisicao;
-            this.livro = livro;
-            disponivel = true;
-        }
+        this.dataAquisicao = dataAquisicao;
+        this.livro = livro;
+        disponivel = true;
     }
 
     public Exemplar() {
@@ -36,6 +37,10 @@ public class Exemplar {
 
     public void setDisponivel(boolean disponivel) {
         this.disponivel = disponivel;
+    }
+
+    public void setDataAquisicao(LocalDate dataAquisicao) {
+        this.dataAquisicao = dataAquisicao;
     }
 
     public Long getId() {
@@ -56,18 +61,9 @@ public class Exemplar {
 
     @Override
     public String toString() {
-        StringBuilder autores = new StringBuilder();
-        for(int i = 0; i < this.livro.getAutores().size(); i++){
-            if(autores.toString().equals("")){
-                autores = new StringBuilder(this.livro.getAutores().get(i).getNome() + " " + this.livro.getAutores().get(i).getSobrenome());
-            }
-            else{
-                autores.append(", ").append(this.livro.getAutores().get(i).getNome()).append(" ").append(this.livro.getAutores().get(i).getSobrenome());
-            }
-        }
-
-        return "Código: " + this.id + " | " + this.livro.getTitulo().toUpperCase() + " | Autores: " + autores.toString().toUpperCase();
+        return "Código: " + this.id + " | " + this.livro.getTitulo().toUpperCase() + " | Autor: " + this.livro.getAutor().toString().toUpperCase();
     }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

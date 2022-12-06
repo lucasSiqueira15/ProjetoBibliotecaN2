@@ -1,7 +1,6 @@
 package br.edu.femass.gui;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,11 +40,7 @@ public class ControllerLivro implements Initializable {
     @FXML
     private Button btnVoltarOpcoes;
     @FXML
-    private Button btnInserirAutor;
-    @FXML
     private Button btnCadastrarAutor;
-    @FXML
-    private Button btnExcluirAutor;
     @FXML
     private TextField txtId;
     @FXML
@@ -63,17 +58,7 @@ public class ControllerLivro implements Initializable {
     @FXML
     private TableColumn<Livro, String> colTitulo = new TableColumn<>();
     @FXML
-    private TableColumn<Livro, List<Autor>> colAutor = new TableColumn<>();
-    @FXML
-    private TableView<Autor> tabAutores = new TableView<Autor>();
-    @FXML
-    private TableColumn<Autor, Long> colIdAutor = new TableColumn<>();
-    @FXML
-    private TableColumn<Autor, String> colNome = new TableColumn<>();
-    @FXML
-    private TableColumn<Autor, String> colSobrenome = new TableColumn<>();
-    @FXML
-    private TableColumn<Autor, String> colNacionalidade = new TableColumn<>();
+    private TableColumn<Livro, Autor> colAutor = new TableColumn<>();
 
     DaoLivro daoLivro = new DaoLivro();
     DaoAutor daoAutor = new DaoAutor();
@@ -122,7 +107,7 @@ public class ControllerLivro implements Initializable {
     @FXML
     public void abrirTelaExemplares(ActionEvent e) {
         try {
-            //Abrir Tela Exemplar
+            new GuiExemplar().iniciar();
             GuiLivro.fecharTela();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
@@ -158,18 +143,6 @@ public class ControllerLivro implements Initializable {
     }
 
     @FXML
-    public void excluirAutor(ActionEvent e) {
-        tabAutores.getItems().remove(tabAutores.getSelectionModel().getSelectedItem());
-    }
-
-    @FXML
-    public void inserirAutor(ActionEvent e) {
-        Autor autor = cboAutores.getSelectionModel().getSelectedItem();
-        declararColunasTabelaAutor();
-        tabAutores.getItems().add(autor);
-    }
-
-    @FXML
     public void voltarOpcoes(ActionEvent e) {
         limparDados();
         visualizacaoTela(false);
@@ -179,13 +152,18 @@ public class ControllerLivro implements Initializable {
     public void processarLivro(ActionEvent e) {
         try {
             if (opcaoProcessamento.equals("inserir")) {
-                cadastrarLivro();
-            } else {
-                modificarLivro();
-                visualizacaoTela(false);
+                if(cadastrarLivro()){
+                    atualizarTabelaLivro();
+                    limparDados();
+                }
+            } 
+            else {
+                if(modificarLivro()){
+                    visualizacaoTela(false);
+                    atualizarTabelaLivro();
+                    limparDados();
+                }
             }
-            atualizarTabelaLivro();
-            limparDados();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
         }
@@ -211,31 +189,6 @@ public class ControllerLivro implements Initializable {
         return "Livro";
     }
 
-    private void atualizarTabelaAutor() throws Exception {
-        tabAutores.getItems().clear();
-
-        declararColunasTabelaAutor();
-
-        Livro livro = tabLivros.getSelectionModel().getSelectedItem();
-
-        ObservableList<Autor> dados = FXCollections.observableArrayList(livro.getAutores());
-        tabAutores.setItems(dados);
-    }
-
-    private void declararColunasTabelaAutor(){
-        colNome.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("nome"));
-
-        colSobrenome.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("sobrenome"));
-
-        colNacionalidade.setCellValueFactory(
-                new PropertyValueFactory<Autor, String>("nacionalidade"));
-
-        colIdAutor.setCellValueFactory(
-                new PropertyValueFactory<Autor, Long>("id"));
-    }
-
     private void atualizarTabelaLivro() throws Exception {
         tabLivros.getItems().clear();
 
@@ -246,7 +199,7 @@ public class ControllerLivro implements Initializable {
                 new PropertyValueFactory<Livro, String>("titulo"));
 
         colAutor.setCellValueFactory(
-                new PropertyValueFactory<Livro, List<Autor>>("autores"));
+                new PropertyValueFactory<Livro, Autor>("autor"));
 
         colIdLivro.setCellValueFactory(
                 new PropertyValueFactory<Livro, Long>("id"));
@@ -266,8 +219,7 @@ public class ControllerLivro implements Initializable {
         txtId.setText(livro.getId().toString());
         txtAno.setText(livro.getAno());
         txtTitulo.setText(livro.getTitulo());
-
-        atualizarTabelaAutor();
+        cboAutores.getSelectionModel().select(livro.getAutor());
     }
 
     private void chamadaErro(String erro) {
@@ -280,13 +232,10 @@ public class ControllerLivro implements Initializable {
     private void visualizacaoTela(Boolean entrada) {
         btnProcessar.setDisable(!entrada);
         btnVoltarOpcoes.setDisable(!entrada);
-        btnInserirAutor.setDisable(!entrada);
         btnCadastrarAutor.setDisable(!entrada);
-        btnExcluirAutor.setDisable(!entrada);
         txtAno.setDisable(!entrada);
         txtTitulo.setDisable(!entrada);
         cboAutores.setDisable(!entrada);
-        tabAutores.setDisable(!entrada);
 
         btnVoltarTela.setDisable(entrada);
         btnInserirLivro.setDisable(entrada);
@@ -300,37 +249,35 @@ public class ControllerLivro implements Initializable {
         txtId.setText("");
         txtAno.setText("");
         txtTitulo.setText("");
-        tabAutores.getItems().clear();
         cboAutores.getSelectionModel().clearSelection();
-        // cboAutores.getSelectionModel().select(-1);
     }
 
-    private void cadastrarLivro() {
-        List<Autor> autores = new ArrayList<Autor>();
-        for (int i = 0; i < tabAutores.getItems().size(); i++) {
-            autores.add(tabAutores.getItems().get(i));
-        }
-
-        if(autores.isEmpty()){
+    private Boolean cadastrarLivro() {
+        if(cboAutores.getSelectionModel().getSelectedItem() == null){
             chamadaErro("POR FAVOR, INSERIR UM AUTOR PARA PODER CADASTRAR SEU LIVRO.");
+            return false;
+        }
+        else{
+            daoLivro.adicionar(new Livro(txtTitulo.getText(), txtAno.getText(), cboAutores.getSelectionModel().getSelectedItem()));
+            return true;
+        }
+    }
+
+    private Boolean modificarLivro() {
+        if(cboAutores.getSelectionModel().getSelectedItem() == null){
+            chamadaErro("POR FAVOR, INSERIR UM AUTOR PARA PODER ALTERAR O SEU LIVRO.");
+            return false;
         }
         else {
-            daoLivro.adicionar(new Livro(txtTitulo.getText(), txtAno.getText(), autores));
+            Livro livro = tabLivros.getSelectionModel().getSelectedItem();
+
+            livro.setAno(txtAno.getText());
+            livro.setTitulo(txtTitulo.getText());
+            livro.setAutor(cboAutores.getSelectionModel().getSelectedItem());
+
+            daoLivro.modificar(livro);
+            return true;
         }
-    }
-
-    private void modificarLivro() {
-        Livro livro = tabLivros.getSelectionModel().getSelectedItem();
-
-        livro.setAno(txtAno.getText());
-        livro.setTitulo(txtTitulo.getText());
-
-        List<Autor> autores = new ArrayList<Autor>();
-        FXCollections.copy(tabAutores.getItems(), autores);
-
-        livro.setAutores(autores);
-
-        daoLivro.modificar(livro);
     }
 
     private void atualizarComboAutores() throws Exception {
@@ -338,7 +285,6 @@ public class ControllerLivro implements Initializable {
         List<Autor> autores = new DaoAutor().listarTodos();
         ObservableList<Autor> dados = FXCollections.observableArrayList(autores);
         cboAutores.setItems(dados);
-        // cboAutores.getSelectionModel().select(-1);
     }
 
 }
