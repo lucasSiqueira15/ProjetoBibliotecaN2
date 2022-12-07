@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.femass.controller.ControllerEmprestimo">
+   <children>
+      <Label layoutX="17.0" layoutY="80.0" text="Selecione o Tipo de Leitor">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnProcessar" layoutX="201.0" layoutY="266.0" mnemonicParsing="false" onAction="#processarEmprestimo" text="Processar">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="17.0" layoutY="188.0" text="Data Empréstimo">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="221.0" prefHeight="21.0" prefWidth="184.0" text="Data Prevista de Devolução">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="118.0" text="Leitor">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cboLeitor" layoutX="201.0" layoutY="116.0" onKeyPressed="#selecionarLinhaTeclado" onMouseClicked="#selecionarLinhaMouse" prefHeight="25.0" prefWidth="415.0" />
+      <Button fx:id="btnVoltarTela" layoutX="288.0" layoutY="266.0" mnemonicParsing="false" onAction="#voltarTela" text="Voltar Menu">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="418.0" layoutY="14.0" text="Cadastrar Novo Empréstimo">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="txtDataPrevDevolucao" editable="false" layoutX="201.0" layoutY="219.0" />
+      <DatePicker fx:id="txtDataEmprestimo" editable="false" layoutX="201.0" layoutY="186.0" />
+      <ComboBox fx:id="cboExemplar" layoutX="201.0" layoutY="151.0" prefHeight="25.0" prefWidth="837.0" />
+      <Button fx:id="btnNovoLeitor" layoutX="388.0" layoutY="266.0" mnemonicParsing="false" onAction="#novoLeitor" text="Cadastrar Novo Leitor">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </Button>
+      <CheckBox fx:id="chbProfessor" layoutX="276.0" layoutY="82.0" mnemonicParsing="false" onMouseClicked="#marcarProfessor" text="Professor">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="chbAluno" layoutX="466.0" layoutY="82.0" mnemonicParsing="false" onMouseClicked="#marcarAluno" text="Aluno">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </CheckBox>
+      <Label layoutX="17.0" layoutY="153.0" prefHeight="21.0" prefWidth="70.0" text="Exemplar">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

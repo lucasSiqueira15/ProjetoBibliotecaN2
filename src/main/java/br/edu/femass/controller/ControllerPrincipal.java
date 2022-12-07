@@ -1,8 +1,15 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.edu.femass.gui.GuiAutor;
+import br.edu.femass.gui.GuiDevolver;
+import br.edu.femass.gui.GuiEmprestimo;
+import br.edu.femass.gui.GuiLeitor;
+import br.edu.femass.gui.GuiLivro;
+import br.edu.femass.gui.GuiPrincipal;
+import br.edu.femass.gui.GuiRelatorio;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,7 +67,12 @@ public class ControllerPrincipal implements Initializable {
 
     @FXML
     private void telaRelatorio(ActionEvent e) {
-        //Acessar Tela de Relatorio
+        try {
+            new GuiRelatorio().iniciar();
+            GuiPrincipal.fecharTela();
+         } catch (Exception ex) {
+             chamadaErro(ex.getMessage());
+         }
     }
 
     @FXML
@@ -75,12 +87,22 @@ public class ControllerPrincipal implements Initializable {
 
     @FXML
     private void telaRealizarEmp(ActionEvent e) {
-        //Acessar Tela de Realizar emprestimo
+        try {
+            new GuiEmprestimo().iniciar();
+            GuiPrincipal.fecharTela();
+         } catch (Exception ex) {
+             chamadaErro(ex.getMessage());
+         }
     }
 
     @FXML
     private void telaDevolverEmp(ActionEvent e) {
-        //Acessar Tela de Devolver emprestimo
+        try {
+            new GuiDevolver().iniciar();
+            GuiPrincipal.fecharTela();
+         } catch (Exception ex) {
+             chamadaErro(ex.getMessage());
+         }
     }
 
     @FXML

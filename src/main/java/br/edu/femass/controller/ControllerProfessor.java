@@ -1,10 +1,13 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import br.edu.femass.dao.DaoProfessor;
+import br.edu.femass.gui.GuiLeitor;
+import br.edu.femass.gui.GuiPrincipal;
+import br.edu.femass.gui.GuiProfessor;
 import br.edu.femass.model.Professor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +67,7 @@ public class ControllerProfessor implements Initializable {
     private TableColumn<Professor, String> colDisciplina = new TableColumn<>();
 
     private String telaAnterior = "";
-    DaoProfessor daoProfessor = new DaoProfessor();
+    private DaoProfessor daoProfessor = new DaoProfessor();
     private String opcaoProcessamento = "";
 
     @FXML

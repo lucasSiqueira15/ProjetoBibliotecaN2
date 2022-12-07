@@ -1,8 +1,12 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.edu.femass.gui.GuiAluno;
+import br.edu.femass.gui.GuiLeitor;
+import br.edu.femass.gui.GuiPrincipal;
+import br.edu.femass.gui.GuiProfessor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

@@ -1,10 +1,13 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import br.edu.femass.dao.DaoAluno;
+import br.edu.femass.gui.GuiAluno;
+import br.edu.femass.gui.GuiLeitor;
+import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.model.Aluno;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +67,7 @@ public class ControllerAluno implements Initializable {
     private TableColumn<Aluno, String> colMatricula = new TableColumn<>();
 
     private String telaAnterior = "";
-    DaoAluno daoAluno = new DaoAluno();
+    private DaoAluno daoAluno = new DaoAluno();
     private String opcaoProcessamento = "";
 
     @FXML

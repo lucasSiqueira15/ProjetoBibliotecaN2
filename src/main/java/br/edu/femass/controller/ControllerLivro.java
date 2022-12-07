@@ -1,4 +1,4 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.List;
@@ -6,6 +6,10 @@ import java.util.ResourceBundle;
 
 import br.edu.femass.dao.DaoAutor;
 import br.edu.femass.dao.DaoLivro;
+import br.edu.femass.gui.GuiAutor;
+import br.edu.femass.gui.GuiExemplar;
+import br.edu.femass.gui.GuiLivro;
+import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.model.Autor;
 import br.edu.femass.model.Livro;
 import javafx.collections.FXCollections;
@@ -60,8 +64,8 @@ public class ControllerLivro implements Initializable {
     @FXML
     private TableColumn<Livro, Autor> colAutor = new TableColumn<>();
 
-    DaoLivro daoLivro = new DaoLivro();
-    DaoAutor daoAutor = new DaoAutor();
+    private DaoLivro daoLivro = new DaoLivro();
+    private DaoAutor daoAutor = new DaoAutor();
     private String opcaoProcessamento = "";
 
     //Métodos para os eventos da tela--------------------------
@@ -282,7 +286,7 @@ public class ControllerLivro implements Initializable {
 
     private void atualizarComboAutores() throws Exception {
         cboAutores.getItems().clear();
-        List<Autor> autores = new DaoAutor().listarTodos();
+        List<Autor> autores = daoAutor.listarTodos();
         ObservableList<Autor> dados = FXCollections.observableArrayList(autores);
         cboAutores.setItems(dados);
     }

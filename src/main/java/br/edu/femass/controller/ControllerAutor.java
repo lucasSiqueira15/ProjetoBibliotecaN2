@@ -1,10 +1,13 @@
-package br.edu.femass.gui;
+package br.edu.femass.controller;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import br.edu.femass.dao.DaoAutor;
+import br.edu.femass.gui.GuiAutor;
+import br.edu.femass.gui.GuiLivro;
+import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.model.Autor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +57,7 @@ public class ControllerAutor implements Initializable {
     private Button btnExcluir;
 
     private String telaAnterior;
-    DaoAutor daoAutor = new DaoAutor();
+    private DaoAutor daoAutor = new DaoAutor();
     private String opcaoProcessamento = "";
 
     @FXML

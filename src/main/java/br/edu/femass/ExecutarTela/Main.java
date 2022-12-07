@@ -1,4 +1,4 @@
-package br.edu.femass.ExecutarTela;
+package br.edu.femass.executarTela;
 
 import br.edu.femass.gui.GuiPrincipal;
 
