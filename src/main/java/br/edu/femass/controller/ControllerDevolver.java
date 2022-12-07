@@ -10,7 +10,8 @@ import br.edu.femass.dao.DaoExemplar;
 import br.edu.femass.gui.GuiDevolver;
 import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.model.Exemplar;
-import br.edu.femass.model.Leitor;
+import br.edu.femass.model.Professor;
+import br.edu.femass.model.Aluno;
 import br.edu.femass.model.Emprestimo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +36,9 @@ public class ControllerDevolver implements Initializable {
     @FXML
     private TableColumn<Emprestimo, Long> colIdEmp = new TableColumn<>();
     @FXML
-    private TableColumn<Emprestimo, Leitor> colLeitorEmp = new TableColumn<>();
+    private TableColumn<Emprestimo, Professor> colLeitorProfessorEmp = new TableColumn<>();
+    @FXML
+    private TableColumn<Emprestimo, Aluno> colLeitorAlunoEmp = new TableColumn<>();
     @FXML
     private TableColumn<Emprestimo, Exemplar> colExemplarEmp = new TableColumn<>();
     @FXML
@@ -50,7 +53,9 @@ public class ControllerDevolver implements Initializable {
     @FXML
     private TableColumn<Emprestimo, Long> colIdDev = new TableColumn<>();
     @FXML
-    private TableColumn<Emprestimo, Leitor> colLeitorDev = new TableColumn<>();
+    private TableColumn<Emprestimo, Professor> colLeitorProfessorDev = new TableColumn<>();
+    @FXML
+    private TableColumn<Emprestimo, Aluno> colLeitorAlunoDev = new TableColumn<>();
     @FXML
     private TableColumn<Emprestimo, Exemplar> colExemplarDev = new TableColumn<>();
     @FXML
@@ -114,7 +119,8 @@ public class ControllerDevolver implements Initializable {
         tabDevolucao.getItems().clear();
 
         colIdDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, Long>("id"));
-        colLeitorDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, Leitor>("leitor"));
+        colLeitorProfessorDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, Professor>("leitorProfessor"));
+        colLeitorAlunoDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, Aluno>("leitorAluno"));
         colExemplarDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, Exemplar>("exemplar"));
         colDataEmpDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataEmprestimo"));
         colPrevDevDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataPrevistaDevolucao"));
@@ -130,7 +136,8 @@ public class ControllerDevolver implements Initializable {
         tabEmprestimo.getItems().clear();
 
         colIdEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, Long>("id"));
-        colLeitorEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, Leitor>("leitor"));
+        colLeitorProfessorEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, Professor>("leitorProfessor"));
+        colLeitorAlunoEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, Aluno>("leitorAluno"));
         colExemplarEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, Exemplar>("exemplar"));
         colDataEmpEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataEmprestimo"));
         colDataPrevDevEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataPrevistaDevolucao"));

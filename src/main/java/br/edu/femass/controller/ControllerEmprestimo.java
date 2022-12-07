@@ -13,7 +13,6 @@ import br.edu.femass.gui.GuiEmprestimo;
 import br.edu.femass.gui.GuiLeitor;
 import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.model.Exemplar;
-import br.edu.femass.model.Leitor;
 import br.edu.femass.model.Professor;
 import br.edu.femass.model.Aluno;
 import br.edu.femass.model.Emprestimo;
@@ -27,7 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ControllerEmprestimo implements Initializable {
@@ -77,13 +75,31 @@ public class ControllerEmprestimo implements Initializable {
     @FXML
     public void processarEmprestimo(ActionEvent e) {
         try {
-            Emprestimo emprestimo = new Emprestimo(cboExemplar.getSelectionModel().getSelectedItem(), (Leitor) cboLeitor.getSelectionModel().getSelectedItem());
+            if (chbAluno.isSelected()) {
+                Emprestimo emprestimo = new Emprestimo(cboExemplar.getSelectionModel().getSelectedItem(),
+                        (Aluno) cboLeitor.getSelectionModel().getSelectedItem());
 
-            daoExemplar.modificar(emprestimo.getExemplar());
-            daoEmprestimo.adicionar(emprestimo);
-            
-            limparDados();
-            chamadaSucesso();
+                daoExemplar.modificar(emprestimo.getExemplar());
+                daoEmprestimo.adicionar(emprestimo);
+
+                limparDados();
+                chamadaSucesso();
+            } 
+            else {
+                if (chbProfessor.isSelected()) {
+                    Emprestimo emprestimo = new Emprestimo(cboExemplar.getSelectionModel().getSelectedItem(),
+                            (Professor) cboLeitor.getSelectionModel().getSelectedItem());
+
+                    daoExemplar.modificar(emprestimo.getExemplar());
+                    daoEmprestimo.adicionar(emprestimo);
+
+                    limparDados();
+                    chamadaSucesso();
+                } 
+                else {
+                    chamadaErro("POR FAVOR, MARCAR SE O LEITOR É ALUNO OU PROFESSOR E DEPOIS SELECIONAR UM LEITOR PARA EMPRÉSTIMO.");
+                }
+            }
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
         }
@@ -118,24 +134,6 @@ public class ControllerEmprestimo implements Initializable {
     }
 
     @FXML
-    public void selecionarLinhaTeclado(KeyEvent e) {
-        try {
-            preencherDatas();
-        } catch (Exception ex) {
-            chamadaErro(ex.getMessage());
-        }
-    }
-
-    @FXML
-    public void selecionarLinhaMouse(MouseEvent e) {
-        try {
-            preencherDatas();
-        } catch (Exception ex) {
-            chamadaErro(ex.getMessage());
-        }
-    }
-
-    @FXML
     public void novoLeitor(ActionEvent e) {
         try {
             new GuiLeitor().iniciar(new ControllerEmprestimo().toString());
@@ -150,6 +148,15 @@ public class ControllerEmprestimo implements Initializable {
         try {
             new GuiPrincipal().iniciar();
             GuiEmprestimo.fecharTela();
+        } catch (Exception ex) {
+            chamadaErro(ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void selecionarLeitor(ActionEvent e){
+        try {
+            preencherDatas();
         } catch (Exception ex) {
             chamadaErro(ex.getMessage());
         }
@@ -171,7 +178,7 @@ public class ControllerEmprestimo implements Initializable {
                 Professor professor = (Professor) cboLeitor.getSelectionModel().getSelectedItem();
                 if (professor != null) {
                     LocalDate previsaoDevolucao = LocalDate.now().plusDays(professor.getPrazoMaximoDevolucao());
-                    
+
                     txtDataEmprestimo.setValue(LocalDate.now());
                     txtDataPrevDevolucao.setValue(previsaoDevolucao);
                 }
@@ -191,6 +198,7 @@ public class ControllerEmprestimo implements Initializable {
         List<Aluno> alunos = daoAluno.listarTodos();
         ObservableList<Aluno> dados = FXCollections.observableArrayList(alunos);
         cboLeitor.setItems(dados);
+        preencherDatas();
     }
 
     private void atualizarComboExemplares() throws Exception {

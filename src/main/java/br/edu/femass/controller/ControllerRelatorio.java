@@ -2,6 +2,7 @@ package br.edu.femass.controller;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -9,7 +10,8 @@ import br.edu.femass.dao.DaoEmprestimo;
 import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.gui.GuiRelatorio;
 import br.edu.femass.model.Exemplar;
-import br.edu.femass.model.Leitor;
+import br.edu.femass.model.Professor;
+import br.edu.femass.model.Aluno;
 import br.edu.femass.model.Emprestimo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,7 +38,9 @@ public class ControllerRelatorio implements Initializable {
     @FXML
     private TableColumn<Emprestimo, Long> colId = new TableColumn<>();
     @FXML
-    private TableColumn<Emprestimo, Leitor> colLeitor = new TableColumn<>();
+    private TableColumn<Emprestimo, Professor> colLeitorProfessor = new TableColumn<>();
+    @FXML
+    private TableColumn<Emprestimo, Aluno> colLeitorAluno = new TableColumn<>();
     @FXML
     private TableColumn<Emprestimo, Exemplar> colExemplar = new TableColumn<>();
     @FXML
@@ -94,25 +98,22 @@ public class ControllerRelatorio implements Initializable {
         tabEmprestimo.getItems().clear();
 
         colId.setCellValueFactory(new PropertyValueFactory<Emprestimo, Long>("id"));
-        colLeitor.setCellValueFactory(new PropertyValueFactory<Emprestimo, Leitor>("leitor"));
+        colLeitorProfessor.setCellValueFactory(new PropertyValueFactory<Emprestimo, Professor>("leitorProfessor"));
+        colLeitorAluno.setCellValueFactory(new PropertyValueFactory<Emprestimo, Aluno>("leitorAluno"));
         colExemplar.setCellValueFactory(new PropertyValueFactory<Emprestimo, Exemplar>("exemplar"));
         colDataEmp.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataEmprestimo"));
         colDataPrevDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataPrevistaDevolucao"));
         colDataDev.setCellValueFactory(new PropertyValueFactory<Emprestimo, LocalDate>("dataDevolucao"));
 
-        // List<Emprestimo> emprestimos = daoEmprestimo.listarTodosEmprestados();
-        // List<Emprestimo> emprestimosPendentes = new ArrayList<>();
+        List<Emprestimo> emprestimos = daoEmprestimo.listarTodosEmprestados();
+        List<Emprestimo> emprestimosPendentes = new ArrayList<>();
 
-        // for(Emprestimo emprestimo : emprestimos){
-        //     if(emprestimo.getDataDevolucao() == null & LocalDate.now().isAfter(emprestimo.getDataPrevistaDevolucao())){
-        //         emprestimosPendentes.add(emprestimo);
-        //     }
-        // }
-        // ObservableList<Emprestimo> dados = FXCollections.observableArrayList(emprestimosPendentes);
-        // tabEmprestimo.setItems(dados);
-
-        List<Emprestimo> emprestimos = daoEmprestimo.listarTodosEmprestadosVencidos();
-        ObservableList<Emprestimo> dados = FXCollections.observableArrayList(emprestimos);
+        for(Emprestimo emprestimo : emprestimos){
+            if(emprestimo.getDataDevolucao() == null & LocalDate.now().isAfter(emprestimo.getDataPrevistaDevolucao())){
+                emprestimosPendentes.add(emprestimo);
+            }
+        }
+        ObservableList<Emprestimo> dados = FXCollections.observableArrayList(emprestimosPendentes);
         tabEmprestimo.setItems(dados);
     }
 }

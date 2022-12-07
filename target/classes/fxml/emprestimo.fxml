@@ -35,7 +35,7 @@
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cboLeitor" layoutX="201.0" layoutY="116.0" onKeyPressed="#selecionarLinhaTeclado" onMouseClicked="#selecionarLinhaMouse" prefHeight="25.0" prefWidth="415.0" />
+      <ComboBox fx:id="cboLeitor" layoutX="201.0" layoutY="116.0" onAction="#selecionarLeitor" prefHeight="25.0" prefWidth="415.0" />
       <Button fx:id="btnVoltarTela" layoutX="288.0" layoutY="266.0" mnemonicParsing="false" onAction="#voltarTela" text="Voltar Menu">
          <font>
             <Font name="Comic Sans MS" size="12.0" />
@@ -46,8 +46,8 @@
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
       </Label>
-      <DatePicker fx:id="txtDataPrevDevolucao" editable="false" layoutX="201.0" layoutY="219.0" />
-      <DatePicker fx:id="txtDataEmprestimo" editable="false" layoutX="201.0" layoutY="186.0" />
+      <DatePicker fx:id="txtDataPrevDevolucao" disable="true" editable="false" layoutX="201.0" layoutY="219.0" />
+      <DatePicker fx:id="txtDataEmprestimo" disable="true" editable="false" layoutX="201.0" layoutY="186.0" />
       <ComboBox fx:id="cboExemplar" layoutX="201.0" layoutY="151.0" prefHeight="25.0" prefWidth="837.0" />
       <Button fx:id="btnNovoLeitor" layoutX="388.0" layoutY="266.0" mnemonicParsing="false" onAction="#novoLeitor" text="Cadastrar Novo Leitor">
          <font>

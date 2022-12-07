@@ -19,7 +19,8 @@
       <TableView fx:id="tabEmprestimo" layoutX="15.0" layoutY="53.0" prefHeight="317.0" prefWidth="1750.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="43.0" text="ID" />
-            <TableColumn fx:id="colLeitor" prefWidth="384.0" text="Leitor" />
+            <TableColumn fx:id="colLeitorProfessor" prefWidth="283.0" text="Leitor Professor" />
+            <TableColumn fx:id="colLeitorAluno" prefWidth="283.0" text="Leitor Aluno" />
             <TableColumn fx:id="colExemplar" prefWidth="949.0" text="Exemplar" />
             <TableColumn fx:id="colDataEmp" minWidth="0.0" prefWidth="115.0" text="Data Empréstimo" />
             <TableColumn fx:id="colDataPrevDev" minWidth="0.0" prefWidth="153.0" text="Data Prevista Devolução" />

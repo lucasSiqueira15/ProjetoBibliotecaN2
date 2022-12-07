@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import br.edu.femass.gui.GuiAluno;
+import br.edu.femass.gui.GuiEmprestimo;
 import br.edu.femass.gui.GuiLeitor;
 import br.edu.femass.gui.GuiPrincipal;
 import br.edu.femass.gui.GuiProfessor;
@@ -44,8 +45,8 @@ public class ControllerLeitor implements Initializable {
                 GuiLeitor.fecharTela();
             } else {
                 if (telaNova.equals("Emprestimo")) {
-                    // GuiEmprestimo telaEmprestimo = new GuiEmprestimo();
-                    // GuiLeitor.fecharTela();
+                    new GuiEmprestimo().iniciar();
+                    GuiLeitor.fecharTela();
                 } else {
                     chamadaErro("Erro ao carregar a tela anterior.");
                 }
